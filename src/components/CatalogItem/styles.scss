@@ -1,8 +1,9 @@
 .catalog-item {
   width: calc(100% - 48px);
   margin: auto;
+  justify-content: space-between;
   column-gap: 24px;
-  grid-template-columns: min-content 1fr min-content;
+  grid-template-columns: min-content min-content;
   align-items: center;
   grid-auto-flow: column;
   display: grid;
@@ -22,6 +23,15 @@
   &:last-child {
     margin-bottom: 48px;
   }
+}
+
+.catalog-item__wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.catalog-item__avatar {
+  max-width: 120px;
 }
 
 .catalog-item__value {
