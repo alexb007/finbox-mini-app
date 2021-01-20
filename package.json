@@ -187,5 +187,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "@vkontakte/vk-miniapps-deploy": "^0.0.22"
   }
 }
