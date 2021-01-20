@@ -13,7 +13,7 @@ import { IRouterProps, IStory, TabRoute } from './types';
  * @constructor
  */
 function Router(props: IRouterProps): React.ReactElement {
-  const [activeStory, setActiveStory] = React.useState<IStory>(TabRoute.App);
+  const [activeStory, setActiveStory] = React.useState<IStory>(TabRoute.Catalog);
 
   React.useEffect(() => {
     props.fetchAccessToken();
