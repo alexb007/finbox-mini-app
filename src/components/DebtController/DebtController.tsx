@@ -1,7 +1,7 @@
 import React from 'react';
 import {block} from "bem-cn";
 import {ActionSheet, ActionSheetItem, usePlatform} from '@vkontakte/vkui';
-import {DebtCarousel, DebtSection} from './modules';
+import {DebtSection} from './modules';
 import {getCurrentUserId} from "../../utils";
 import IDebtControllerProps, {SortType} from './types';
 import {connect} from "react-redux";
@@ -11,7 +11,7 @@ import {DebtCard} from "../index";
 import firebase from "../../firebase";
 import moment from 'moment';
 import {DebtType} from "../../modals/AddDebt/types";
-import {classNames} from "@vkontakte/vkjs";
+import { Icon56PaymentCardOutline } from '@vkontakte/icons';
 
 const debtContainer = block('debt-container');
 
@@ -95,21 +95,52 @@ function DebtController(props: IDebtControllerProps): React.ReactElement {
     });
   }
 
-  console.log(document.body.clientWidth);
+  function hasExist(type: DebtType) {
+    return data ? Object.values(data).filter((node: any) => {
+      return node.type === type;
+    }).length > 0 ? true : false : false;
+  }
+
+  console.log(index);
 
   return (
     <div>
       <DebtSection data={data} index={index} onChange={(index) => setIndex(index)} />
       <div className={debtContainer()}>
-        <div className={debtContainer('header')}>
-          <div className={debtContainer('title')}>
-            Займы по {' '}
-            <button type="button" onClick={() => changeSortType()}>
-              {sortType === SortType.ByMaximumSum && 'большей сумме ₽'}
+        {index === 0 && hasExist(DebtType.borrowed) && (
+          <div className={debtContainer('header')}>
+            <div className={debtContainer('title')}>
+              Займы по {' '}
+              <button type="button" onClick={() => changeSortType()}>
+                {sortType === SortType.ByMaximumSum && 'большей сумме ₽'}
                 {sortType === SortType.ByExpirationDate && 'дате возврата'}
-            </button>
+              </button>
+            </div>
           </div>
-        </div>
+        )}
+        {index === 0 && !hasExist(DebtType.borrowed) && (
+          <div className="empty-filter">
+            <Icon56PaymentCardOutline />
+            <p>У вас еще нет выданных займов</p>
+          </div>
+        )}
+        {index === 1 && hasExist(DebtType.lent) && (
+          <div className={debtContainer('header')}>
+            <div className={debtContainer('title')}>
+              Займы по {' '}
+              <button type="button" onClick={() => changeSortType()}>
+                {sortType === SortType.ByMaximumSum && 'большей сумме ₽'}
+                {sortType === SortType.ByExpirationDate && 'дате возврата'}
+              </button>
+            </div>
+          </div>
+        )}
+        {index === 1 && !hasExist(DebtType.lent) && (
+          <div className="empty-filter">
+            <Icon56PaymentCardOutline />
+            <p>У вас еще нет выданных займов</p>
+          </div>
+        )}
         <div className={debtContainer('content')}>
           {renderData()}
         </div>

@@ -179,3 +179,12 @@
 .button:focus {
   user-select: none;
 }
+
+.empty-filter {
+  color: #616C7A;
+  text-align: center;
+}
+
+.empty-filter .Icon {
+  margin: auto;
+}
