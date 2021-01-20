@@ -89,7 +89,7 @@
 .PanelHeader--ios::before,
 .PanelHeader--ios .PanelHeader__in {
   height: var(--panelheader_height_ios);
-  padding-top: 40px;
+  padding-top: 70px;
   box-sizing: border-box;
   padding-left: 24px;
 }
@@ -179,7 +179,7 @@
 .PanelHeader--android::before,
 .PanelHeader--android .PanelHeader__in {
   height: var(--panelheader_height_android);
-  padding-top: 40px;
+  padding-top: 70px;
   box-sizing: border-box;
 }
 
