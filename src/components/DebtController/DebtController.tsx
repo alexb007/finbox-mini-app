@@ -138,7 +138,7 @@ function DebtController(props: IDebtControllerProps): React.ReactElement {
         {index === 1 && !hasExist(DebtType.lent) && (
           <div className="empty-filter">
             <Icon56PaymentCardOutline />
-            <p>У вас еще нет выданных займов</p>
+            <p>У вас еще нет полученных займов</p>
           </div>
         )}
         <div className={debtContainer('content')}>
