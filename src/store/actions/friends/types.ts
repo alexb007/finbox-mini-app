@@ -14,7 +14,10 @@ export interface IFetchFriendsAction {
 export interface ISetFriendsAction {
   type: typeof constants.SET_FRIENDS;
   payload: {
-    friends: IFriend[];
+    friends: {
+      list: IFriend[];
+      loading: boolean;
+    };
   };
 }
 

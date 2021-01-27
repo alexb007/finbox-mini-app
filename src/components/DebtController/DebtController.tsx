@@ -1,6 +1,6 @@
 import React from 'react';
 import {block} from "bem-cn";
-import {ActionSheet, ActionSheetItem, usePlatform} from '@vkontakte/vkui';
+import {ActionSheet, ActionSheetItem} from '@vkontakte/vkui';
 import {DebtSection} from './modules';
 import {getCurrentUserId} from "../../utils";
 import IDebtControllerProps, {SortType} from './types';
@@ -11,146 +11,145 @@ import {DebtCard} from "../index";
 import firebase from "../../firebase";
 import moment from 'moment';
 import {DebtType} from "../../modals/AddDebt/types";
-import { Icon56PaymentCardOutline } from '@vkontakte/icons';
+import {Icon56PaymentCardOutline} from '@vkontakte/icons';
 
 const debtContainer = block('debt-container');
 
 function DebtController(props: IDebtControllerProps): React.ReactElement {
-  const [index, setIndex] = React.useState<number>(0);
-  const [sortType, setSortType] = React.useState<SortType>(SortType.ByMaximumSum);
-  const [data, setData] = React.useState<{} | null>(null);
-  const platform = usePlatform();
+    const [index, setIndex] = React.useState<number>(0);
+    const [sortType, setSortType] = React.useState<SortType>(SortType.ByMaximumSum);
+    const [data, setData] = React.useState<{} | null>(null);
 
-  function fetchData(): void {
-    const userId = getCurrentUserId();
+    function fetchData(): void {
+        const userId = getCurrentUserId();
 
-    if (userId !== null) {
-      firebase.database().ref(userId).on('value', (snapshot) => {
-        const value = snapshot.val();
-        setData(value);
-      });
+        if (userId !== null) {
+            firebase.database().ref(userId).on('value', (snapshot) => {
+                const value = snapshot.val();
+                setData(value);
+            });
+        }
     }
-  }
 
-  React.useEffect(() => {
-    fetchData();
-  }, []);
+    React.useEffect(() => {
+        fetchData();
+    }, []);
 
-  function getCurrentType(): DebtType {
-    if (index === 0) {
-      return DebtType.borrowed;
-    } else return DebtType.lent;
-  }
-
-  /**
-   * The function change sort type.
-   */
-  function changeSortType(): void {
-    if (sortType === SortType.ByMaximumSum) {
-      return setSortType(SortType.ByExpirationDate);
-    } else {
-      return setSortType(SortType.ByMaximumSum);
+    function getCurrentType(): DebtType {
+        if (index === 0) {
+            return DebtType.borrowed;
+        } else return DebtType.lent;
     }
-  }
 
-  function renderData() {
-    return data === null ? (<div/>) : Object.entries(data).map((element) => {
-      const key = element[0];
-      const value: any = element[1];
-      const friend = props.friends.find((friend) => friend.id === value.friendId);
+    /**
+     * The function change sort type.
+     */
+    function changeSortType(): void {
+        if (sortType === SortType.ByMaximumSum) {
+            return setSortType(SortType.ByExpirationDate);
+        } else {
+            return setSortType(SortType.ByMaximumSum);
+        }
+    }
 
-      return friend && (
-        <DebtCard
-          itemKey={key}
-          type={value.type}
-          first_name={friend.first_name || ''}
-          last_name={friend.last_name || ''}
-          photo_100={friend.photo_100 || ''}
-          sum={value.sum}
-          createdAt={value.createdAt}
-          expirationDate={value.expirationDate}
-          onClick={(itemKey) => props.onShowPopout && props.onShowPopout(
-            //@ts-ignore
-            <ActionSheet
-              iosCloseItem={<ActionSheetItem autoclose mode="cancel">Отменить</ActionSheetItem>}
-              onClose={() => props.onShowPopout && props.onShowPopout(undefined)}
-            >
-              <ActionSheetItem autoclose mode="destructive" onClick={() => {
-                firebase.database().ref(`${getCurrentUserId()}/${itemKey}`).remove();
-              }}>
-                Удалить
-              </ActionSheetItem>
-            </ActionSheet>
-          )}
-        />
-      ) || <div/>
-    }).sort((a: any, b: any) => {
-      if (sortType === SortType.ByMaximumSum) {
-        return Number(b.props.sum) - Number(a.props.sum);
-      } else {
-        return moment(new Date(a.props.expirationDate)).unix() - moment(new Date(b.props.expirationDate)).unix()
-      }
-    }).filter((element: any) => {
-      return element.props.type === getCurrentType();
-    });
-  }
+    function renderData() {
+        return data === null ? (<div/>) : Object.entries(data).map((element) => {
+            const key = element[0];
+            const value: any = element[1];
+            const friend = props.friends.list.find((friend) => friend.id === value.friendId);
 
-  function hasExist(type: DebtType) {
-    return data ? Object.values(data).filter((node: any) => {
-      return node.type === type;
-    }).length > 0 ? true : false : false;
-  }
+            // eslint-disable-next-line no-mixed-operators
+            return friend && (
+                <DebtCard
+                    itemKey={key}
+                    type={value.type}
+                    first_name={friend.first_name || ''}
+                    last_name={friend.last_name || ''}
+                    photo_100={friend.photo_100 || ''}
+                    sum={value.sum}
+                    createdAt={value.createdAt}
+                    expirationDate={value.expirationDate}
+                    onClick={(itemKey) => props.onShowPopout && props.onShowPopout(
+                        //@ts-ignore
+                        <ActionSheet
+                            iosCloseItem={<ActionSheetItem autoclose mode="cancel">Отменить</ActionSheetItem>}
+                            onClose={() => props.onShowPopout && props.onShowPopout(undefined)}
+                        >
+                            <ActionSheetItem autoclose mode="destructive" onClick={() => {
+                                firebase.database().ref(`${getCurrentUserId()}/${itemKey}`).remove();
+                            }}>
+                                Удалить
+                            </ActionSheetItem>
+                        </ActionSheet>
+                    )}
+                />
+                // eslint-disable-next-line no-mixed-operators
+            ) || <div/>
+        }).sort((a: any, b: any) => {
+            if (sortType === SortType.ByMaximumSum) {
+                return Number(b.props.sum) - Number(a.props.sum);
+            } else {
+                return moment(new Date(a.props.expirationDate)).unix() - moment(new Date(b.props.expirationDate)).unix()
+            }
+        }).filter((element: any) => {
+            return element.props.type === getCurrentType();
+        });
+    }
 
-  console.log(index);
+    function hasExist(type: DebtType) {
+        return data ? Object.values(data).filter((node: any) => {
+            return node.type === type;
+        }).length > 0 ? true : false : false;
+    }
 
-  return (
-    <div>
-      <DebtSection data={data} index={index} onChange={(index) => setIndex(index)} />
-      <div className={debtContainer()}>
-        {index === 0 && hasExist(DebtType.borrowed) && (
-          <div className={debtContainer('header')}>
-            <div className={debtContainer('title')}>
-              Займы по {' '}
-              <button type="button" onClick={() => changeSortType()}>
-                {sortType === SortType.ByMaximumSum && 'большей сумме ₽'}
-                {sortType === SortType.ByExpirationDate && 'дате возврата'}
-              </button>
+    return (
+        <div>
+            <DebtSection data={data} index={index} onChange={(index) => setIndex(index)}/>
+            <div className={debtContainer()}>
+                {index === 0 && hasExist(DebtType.borrowed) && (
+                    <div className={debtContainer('header')}>
+                        <div className={debtContainer('title')}>
+                            Займы по {' '}
+                            <button type="button" onClick={() => changeSortType()}>
+                                {sortType === SortType.ByMaximumSum && 'большей сумме ₽'}
+                                {sortType === SortType.ByExpirationDate && 'дате возврата'}
+                            </button>
+                        </div>
+                    </div>
+                )}
+                {index === 0 && !hasExist(DebtType.borrowed) && (
+                    <div className="empty-filter">
+                        <Icon56PaymentCardOutline/>
+                        <p>У вас еще нет выданных займов</p>
+                    </div>
+                )}
+                {index === 1 && hasExist(DebtType.lent) && (
+                    <div className={debtContainer('header')}>
+                        <div className={debtContainer('title')}>
+                            Займы по {' '}
+                            <button type="button" onClick={() => changeSortType()}>
+                                {sortType === SortType.ByMaximumSum && 'большей сумме ₽'}
+                                {sortType === SortType.ByExpirationDate && 'дате возврата'}
+                            </button>
+                        </div>
+                    </div>
+                )}
+                {index === 1 && !hasExist(DebtType.lent) && (
+                    <div className="empty-filter">
+                        <Icon56PaymentCardOutline/>
+                        <p>У вас еще нет полученных займов</p>
+                    </div>
+                )}
+                <div className={debtContainer('content')}>
+                    {renderData()}
+                </div>
             </div>
-          </div>
-        )}
-        {index === 0 && !hasExist(DebtType.borrowed) && (
-          <div className="empty-filter">
-            <Icon56PaymentCardOutline />
-            <p>У вас еще нет выданных займов</p>
-          </div>
-        )}
-        {index === 1 && hasExist(DebtType.lent) && (
-          <div className={debtContainer('header')}>
-            <div className={debtContainer('title')}>
-              Займы по {' '}
-              <button type="button" onClick={() => changeSortType()}>
-                {sortType === SortType.ByMaximumSum && 'большей сумме ₽'}
-                {sortType === SortType.ByExpirationDate && 'дате возврата'}
-              </button>
-            </div>
-          </div>
-        )}
-        {index === 1 && !hasExist(DebtType.lent) && (
-          <div className="empty-filter">
-            <Icon56PaymentCardOutline />
-            <p>У вас еще нет полученных займов</p>
-          </div>
-        )}
-        <div className={debtContainer('content')}>
-          {renderData()}
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 const mapStateToProps = (state: IState) => ({
-  friends: getFriendsState(state)
+    friends: getFriendsState(state)
 });
 
 export default connect(mapStateToProps)(DebtController);

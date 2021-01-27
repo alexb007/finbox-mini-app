@@ -1,7 +1,7 @@
 import { takeLatest } from 'redux-saga/effects';
-import { SET_USER } from '../../constants/user';
+import { FETCH_FRIENDS } from '../../constants/friends';
 import { fetchFriendsWorker } from '../worker/fetchFriends';
 
 export function* fetchFriendsWatcher() {
-  yield takeLatest(SET_USER, fetchFriendsWorker);
+  yield takeLatest(FETCH_FRIENDS, fetchFriendsWorker);
 }

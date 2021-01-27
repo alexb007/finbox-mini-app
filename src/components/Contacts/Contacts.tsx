@@ -16,7 +16,7 @@ function Contacts(props: IContactsProps): React.ReactElement {
    * @param friends
    */
   function renderFriends(friends: IContactsProps['friends']) {
-    return friends.map((friend) => (
+    return friends.list.map((friend) => (
       <SimpleCell before={<Avatar src={friend.photo_100} size={48} />}>
         {friend.first_name} {friend.last_name}
       </SimpleCell>
@@ -25,7 +25,7 @@ function Contacts(props: IContactsProps): React.ReactElement {
 
   return (
     <Group header={<Header mode="primary">Контакты</Header>} mode="plain">
-      {props.friends.length > 0 ? renderFriends(props.friends) : <Spinner size="medium" />}
+      {props.friends.list.length > 0 ? renderFriends(props.friends) : <Spinner size="medium" />}
     </Group>
   )
 }

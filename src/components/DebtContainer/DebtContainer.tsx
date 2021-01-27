@@ -29,7 +29,7 @@ function DebtContainer(props: IDebtContainerProps): React.ReactElement {
   const userId = urlParams.get('vk_user_id');
 
   function getFriendById(id: IFriend['id']): IFriend | undefined {
-    return props.friends.find((friend) => friend.id === id);
+    return props.friends.list.find((friend) => friend.id === id);
   }
 
   function renderDebt(data: any) {

@@ -1,5 +1,5 @@
 import IFriend from "../../store/types/friend";
-import {IAddDebtValues} from "../../modals/AddDebt";
+import {IAddDebtValues} from "../../modals";
 
 export interface IDebtCardProps {
   type?: string;

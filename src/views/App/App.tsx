@@ -1,13 +1,9 @@
 import React from 'react';
-import { connect } from "react-redux";
 import { View, ModalRoot } from '@vkontakte/vkui';
 import { ViewProps } from "@vkontakte/vkui/dist/components/View/View";
 import { PanelProps } from "@vkontakte/vkui/dist/components/Panel/Panel";
-import { getFriendsState } from "../../store/reducers/friends";
 import { AppPanel } from "../../panels";
 import { AddDebtModal } from '../../modals';
-import { IState } from "../../store/types/state";
-import { IFriendsState } from "../../store/reducers/friends/types";
 import { AppModal } from './types';
 import IModal from "../../types/modal";
 
@@ -16,7 +12,7 @@ import IModal from "../../types/modal";
  *
  * @constructor
  */
-function AppView(props: ViewProps & PanelProps & { friends: IFriendsState }): React.ReactElement {
+export default function AppView(props: ViewProps & PanelProps): React.ReactElement {
   const [activeModal, setActiveModal] = React.useState<IModal | null>(null);
   const [popout, setPopout] = React.useState<ViewProps['popout']>(undefined);
 
@@ -55,9 +51,3 @@ function AppView(props: ViewProps & PanelProps & { friends: IFriendsState }): Re
     </View>
   );
 }
-
-const mapStateToProps = (state: IState) => ({
-  friends: getFriendsState(state)
-});
-
-export default connect(mapStateToProps)(AppView);

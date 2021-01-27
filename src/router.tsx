@@ -15,9 +15,7 @@ import { IRouterProps, IStory, TabRoute } from './types';
 function Router(props: IRouterProps): React.ReactElement {
   const [activeStory, setActiveStory] = React.useState<IStory>(TabRoute.Catalog);
 
-  React.useEffect(() => {
-    props.fetchAccessToken();
-  }, [props]);
+
 
   function onStoryChange(e: any): void {
     return setActiveStory(e.currentTarget.dataset.story);
@@ -48,8 +46,4 @@ function Router(props: IRouterProps): React.ReactElement {
   );
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  fetchAccessToken: bindActionCreators(fetchAccessToken, dispatch)
-});
-
-export default connect(null, mapDispatchToProps)(Router);
+export default connect(null, null)(Router);
