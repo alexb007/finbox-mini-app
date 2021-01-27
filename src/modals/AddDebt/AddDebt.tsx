@@ -16,21 +16,6 @@ import {getUserState} from "../../store/reducers/user";
 
 class AddDebtModal extends React.Component<IAddDebtModalProps> {
 
-    componentDidMount() {
-        console.log(this.props.friends)
-        this.setState((state, props) => ({friends: this.props.friends}))
-    }
-
-    componentDidUpdate(prevProps: Readonly<IAddDebtModalProps>, prevState: Readonly<{}>, snapshot?: any) {
-        console.log(this.props.friends)
-        this.setState((state, props) => ({friends: this.props.friends}))
-    }
-
-    state = {
-        friends: []
-    }
-
-
     initialValues: IAddDebtValues = {
         type: DebtType.borrowed,
         sum: null,
@@ -116,11 +101,11 @@ class AddDebtModal extends React.Component<IAddDebtModalProps> {
                                     {({field, meta}: formik.FieldProps) => (
                                         <ui.FormItem top="Выберите друга*" bottom={meta.touched && meta.error}
                                                      onClick={this.props.onFetchClick}
+                                                     defaultValue={"-1"}
                                                      status={meta.touched && meta.error ? 'error' : undefined}>
                                             <ui.Select
                                                 {...field}
-                                                defaultValue={"null"}
-                                                options={this.state.friends}
+                                                options={this.props.friends}
                                                 renderOption={({option, ...restProps}) => (
                                                     <ui.CustomSelectOption
                                                         {...restProps}
