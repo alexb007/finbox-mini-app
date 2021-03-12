@@ -1,4 +1,4 @@
-import {IFriendsState} from "../../store/reducers/friends/types";
+// import {IFriendsState} from "../../store/reducers/friends/types";
 import {ViewProps} from "@vkontakte/vkui/dist/components/View/View";
 
 export enum SortType {
@@ -7,6 +7,6 @@ export enum SortType {
 }
 
 export default interface IDebtControllerProps {
-  friends: IFriendsState;
+  // friends: IFriendsState;
   onShowPopout?: (popout: ViewProps['popout']) => void;
 }

@@ -2,5 +2,10 @@
  * The user interface.
  */
 export interface IUser {
-  access_token: string;
+  id: number | undefined;
+  first_name: string | undefined;
+  last_name: string | undefined;
+  phone: string | null;
+  email: string | null;
+  access_token: string | number;
 }

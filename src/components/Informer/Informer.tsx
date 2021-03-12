@@ -1,6 +1,6 @@
 import React from 'react';
-import { Group, Header, CellButton } from '@vkontakte/vkui';
-import { Icon24HistoryBackwardOutline, Icon24Add } from '@vkontakte/icons';
+import { Group, CellButton } from '@vkontakte/vkui';
+import { Icon24Add } from '@vkontakte/icons';
 import { IInformerProps } from "./types";
 
 /**

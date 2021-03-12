@@ -6,20 +6,19 @@ import * as formik from 'formik';
 import * as ui from '@vkontakte/vkui';
 import * as icons from "@vkontakte/icons";
 import {getCurrentUserId} from '../../utils';
-import {getFriendsOptions} from '../../store/reducers/friends';
 import IAddDebtModalProps, {IAddDebtValues, DebtType} from './types';
 import {IState} from '../../store/types/state';
 import {FriendsAction} from "../../store/actions/friends/types";
-import {fetchFriends} from "../../store/actions/friends";
 import {Dispatch} from "redux";
 import {getUserState} from "../../store/reducers/user";
+import './styles.scss';
 
 class AddDebtModal extends React.Component<IAddDebtModalProps> {
 
     initialValues: IAddDebtValues = {
         type: DebtType.borrowed,
-        sum: null,
-        friendId: -1,
+        sum: 0,
+        friend: '',
         expirationDate: null
     };
 
@@ -42,20 +41,20 @@ class AddDebtModal extends React.Component<IAddDebtModalProps> {
                                            errors.type = 'Выберите тип долга';
                                        } else if (!values.sum) {
                                            errors.sum = 'Введите сумму';
-                                       } else if (!values.friendId || values.friendId === -1) {
-                                           errors.friendId = 'Выберите контакт из списка';
+                                       } else if (!values.friend || values.friend === '') {
+                                           errors.friend = `Введите имя вашего ${values.type && values.type.includes(DebtType.borrowed) ? "заёмщика" : "кредитора"}`;
                                        }
-
                                        return errors;
                                    }}
                                    onSubmit={async (values) => {
+                                       console.log(`${getCurrentUserId()}asd`);
                                        await runMutation({
                                            ...values,
                                            createdAt: moment().format('YYYY-MM-DD'),
                                            expirationDate: values.expirationDate && moment(new Date(values.expirationDate.year, values.expirationDate.month - 1, values.expirationDate.day)).format('YYYY-MM-DD')
                                        }).then(() => this.props.onCancelModal && this.props.onCancelModal());
                                    }}>
-                        {({setFieldValue}: formik.FormikProps<IAddDebtValues>) => (
+                        {({setFieldValue, values}: formik.FormikProps<IAddDebtValues>) => (
                             <formik.Form>
                                 <formik.Field name="type">
                                     {({field, meta}: formik.FieldProps) => (
@@ -97,30 +96,15 @@ class AddDebtModal extends React.Component<IAddDebtModalProps> {
                                         </ui.FormItem>
                                     )}
                                 </formik.Field>
-                                <formik.Field name="friendId">
+                                <formik.Field name="friend">
                                     {({field, meta}: formik.FieldProps) => (
-                                        <ui.FormItem top="Выберите друга*" bottom={meta.touched && meta.error}
-                                                     onClick={this.props.onFetchClick}
-                                                     defaultValue={"-1"}
-                                                     status={meta.touched && meta.error ? 'error' : undefined}>
-                                            <ui.Select
-                                                {...field}
-                                                options={this.props.friends}
-                                                renderOption={({option, ...restProps}) => (
-                                                    <ui.CustomSelectOption
-                                                        {...restProps}
-                                                        before={option.photo_100 && (
-                                                            <ui.Avatar
-                                                                src={option.photo_100}
-                                                                size={24}
-                                                            />
-                                                        )}
-                                                    />
-                                                )}
-                                                onChange={(event) => {
-                                                    return setFieldValue(field.name, Number(event.target.value));
-                                                }}
-                                            />
+                                        <ui.FormItem
+                                            top={values.type && values.type.includes(DebtType.borrowed) ? "Заёмщик*" : "Кредитор*"}
+                                            bottom={meta.touched && meta.error}
+                                            onClick={this.props.onFetchClick}
+                                            defaultValue={"-1"}
+                                            status={meta.touched && meta.error ? 'error' : undefined}>
+                                            <ui.Input {...field} type="text" maxLength={32}/>
                                         </ui.FormItem>
                                     )}
                                 </formik.Field>
@@ -128,9 +112,9 @@ class AddDebtModal extends React.Component<IAddDebtModalProps> {
 
                                 <formik.Field name="sum">
                                     {({field, meta}: formik.FieldProps) => (
-                                        <ui.FormItem top="Сумма*" bottom={meta.touched && meta.error}
+                                        <ui.FormItem top={"Сумма*"} bottom={meta.touched && meta.error}
                                                      status={meta.touched && meta.error ? 'error' : undefined}>
-                                            <ui.Input {...field} type="number" min={1}/>
+                                            <ui.Input {...field} type="number" min={1} max={1000000000} maxLength={10}/>
                                         </ui.FormItem>
                                     )}
                                 </formik.Field>
@@ -150,14 +134,9 @@ class AddDebtModal extends React.Component<IAddDebtModalProps> {
 }
 
 const mapStateToProps = (state: IState) => ({
-    friends: getFriendsOptions(state),
     user: getUserState(state)
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<FriendsAction>) => ({
-    onFetchClick: async () => {
-        dispatch(fetchFriends())
-    },
-})
+const mapDispatchToProps = (dispatch: Dispatch<FriendsAction>) => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(ui.withModalRootContext(AddDebtModal));

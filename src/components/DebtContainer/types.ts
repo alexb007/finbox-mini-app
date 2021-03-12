@@ -1,5 +1,5 @@
-import {IFriendsState} from "../../store/reducers/friends/types";
+// import {IFriendsState} from "../../store/reducers/friends/types";
 
 export interface IDebtContainerProps {
-  friends: IFriendsState;
+  // friends: IFriendsState;
 }

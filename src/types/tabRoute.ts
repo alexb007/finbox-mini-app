@@ -2,7 +2,7 @@
  * The tab routes with names.
  */
 enum TabRoute {
-  'Catalog' = 'catalog',
+  'Selection' = 'selection',
   'App' = 'app'
 }
 

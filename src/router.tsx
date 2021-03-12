@@ -1,10 +1,11 @@
 import React from 'react';
-import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { AppRoot, Epic, Tabbar, TabbarItem, View } from '@vkontakte/vkui';
-import { Icon28BookOutline, Icon28ServicesOutline } from '@vkontakte/icons';
-import { fetchAccessToken } from './store/actions/user';
-import { CatalogView, AppView } from './views';
+import { AppRoot, Epic, Tabbar, TabbarItem } from '@vkontakte/vkui';
+import {
+  Icon28BookOutline,
+  Icon28MoneyTransferOutline,
+} from '@vkontakte/icons';
+import { SelectionView, AppView } from './views';
 import { IRouterProps, IStory, TabRoute } from './types';
 
 /**
@@ -13,7 +14,7 @@ import { IRouterProps, IStory, TabRoute } from './types';
  * @constructor
  */
 function Router(props: IRouterProps): React.ReactElement {
-  const [activeStory, setActiveStory] = React.useState<IStory>(TabRoute.Catalog);
+  const [activeStory, setActiveStory] = React.useState<IStory>(TabRoute.Selection);
 
 
 
@@ -27,19 +28,19 @@ function Router(props: IRouterProps): React.ReactElement {
         <Tabbar>
           <TabbarItem
             onClick={onStoryChange}
-            selected={activeStory === TabRoute.Catalog}
-            data-story={TabRoute.Catalog}
+            selected={activeStory === TabRoute.Selection}
+            data-story={TabRoute.Selection}
             text="Займы"
-          ><Icon28BookOutline /></TabbarItem>
+          ><Icon28MoneyTransferOutline/></TabbarItem>
           <TabbarItem
             onClick={onStoryChange}
             selected={activeStory === TabRoute.App}
             data-story={TabRoute.App}
             text="Трекер"
-          ><Icon28ServicesOutline /></TabbarItem>
+          ><Icon28BookOutline /></TabbarItem>
         </Tabbar>
       }>
-        <CatalogView id={TabRoute.Catalog} activePanel={TabRoute.Catalog} />
+        <SelectionView id={TabRoute.Selection} activePanel={TabRoute.Selection} />
         <AppView id={TabRoute.App} activePanel={TabRoute.App} />
       </Epic>
     </AppRoot>

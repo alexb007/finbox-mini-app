@@ -47,6 +47,7 @@
 .PanelHeader__content {
   overflow: hidden;
   color: var(--white);
+  margin-top: 16px;
   font-size: 22px!important;
   font-weight: 700;
   font-family: var(--font-tt);
@@ -70,7 +71,6 @@
 }
 
 .PanelHeader--vkapps .PanelHeader__right {
-  min-width: 90px;
 }
 
 .PanelHeader--sizeX-compact .PanelHeader__separator {

@@ -1,0 +1,61 @@
+.selection-card {
+  margin-left: 2rem;
+  margin-right: 2rem;
+  padding: 1rem;
+
+  .Slider__dragger {
+    cursor: pointer;
+  }
+
+  .Slider__dragger::before {
+    height: 5px;
+    border-radius: 48px;
+    background-color: #37C585;
+  }
+
+  .Slider__thumb {
+    border: 2px solid #37C585;
+    border-radius: 48px;
+  }
+
+  .Slider--sizeY-compact::before {
+    height: 5px;
+    border-radius: 32px;
+  }
+
+  & > div > form > label:first-of-type {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding-top: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-bottom: 1px solid var(--separator_common);
+  }
+
+  &__sum {
+    &__label {
+      height: 48px;
+      font-size: 3rem;
+    }
+
+    &__value {
+      margin-top: 16px;
+      height: 48px;
+      font-size: 3rem !important;
+      color: black;
+      font-weight: bold;
+    }
+
+    &__bottom {
+      margin-top: 4px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    &__slider {
+      margin-top: 16px;
+    }
+  }
+}

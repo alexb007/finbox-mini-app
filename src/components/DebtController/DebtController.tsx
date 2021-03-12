@@ -5,8 +5,8 @@ import {DebtSection} from './modules';
 import {getCurrentUserId} from "../../utils";
 import IDebtControllerProps, {SortType} from './types';
 import {connect} from "react-redux";
-import {IState} from "../../store/types/state";
-import {getFriendsState} from "../../store/reducers/friends";
+// import {IState} from "../../store/types/state";
+// import {getFriendsState} from "../../store/reducers/friends";
 import {DebtCard} from "../index";
 import firebase from "../../firebase";
 import moment from 'moment';
@@ -56,16 +56,14 @@ function DebtController(props: IDebtControllerProps): React.ReactElement {
         return data === null ? (<div/>) : Object.entries(data).map((element) => {
             const key = element[0];
             const value: any = element[1];
-            const friend = props.friends.list.find((friend) => friend.id === value.friendId);
 
             // eslint-disable-next-line no-mixed-operators
-            return friend && (
-                <DebtCard
+            return <DebtCard
                     itemKey={key}
                     type={value.type}
-                    first_name={friend.first_name || ''}
-                    last_name={friend.last_name || ''}
-                    photo_100={friend.photo_100 || ''}
+                    first_name={value.friend || ''}
+                    last_name={''}
+                    photo_100={''}
                     sum={value.sum}
                     createdAt={value.createdAt}
                     expirationDate={value.expirationDate}
@@ -83,8 +81,6 @@ function DebtController(props: IDebtControllerProps): React.ReactElement {
                         </ActionSheet>
                     )}
                 />
-                // eslint-disable-next-line no-mixed-operators
-            ) || <div/>
         }).sort((a: any, b: any) => {
             if (sortType === SortType.ByMaximumSum) {
                 return Number(b.props.sum) - Number(a.props.sum);
@@ -99,7 +95,7 @@ function DebtController(props: IDebtControllerProps): React.ReactElement {
     function hasExist(type: DebtType) {
         return data ? Object.values(data).filter((node: any) => {
             return node.type === type;
-        }).length > 0 ? true : false : false;
+        }).length > 0 : false;
     }
 
     return (
@@ -148,8 +144,8 @@ function DebtController(props: IDebtControllerProps): React.ReactElement {
     );
 }
 
-const mapStateToProps = (state: IState) => ({
-    friends: getFriendsState(state)
-});
+// const mapStateToProps = (state: IState) => ({
+//     friends: getFriendsState(state)
+// });
 
-export default connect(mapStateToProps)(DebtController);
+export default connect(null)(DebtController);

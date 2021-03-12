@@ -1,10 +1,15 @@
 import * as constants from '../../constants/user';
-import { UserAction } from '../../actions/user/types';
-import { IUserState } from './types';
+import {UserAction} from '../../actions/user/types';
+import {IUserState} from './types';
 import {IState} from "../../types/state";
 
 const initialState: IUserState = {
-  access_token: ''
+    id: undefined,
+    first_name: '',
+    last_name: '',
+    phone: '',
+    email: '',
+    access_token: '',
 };
 
 /**
@@ -14,13 +19,15 @@ const initialState: IUserState = {
  * @param action
  */
 export function userReducer(state = initialState, action: UserAction) {
-  switch (action.type) {
-    case constants.SET_USER: {
-      return action.payload.user;
-    }
+    switch (action.type) {
+        case constants.SET_USER:
+        case constants.SET_ACCESS_TOKEN: {
+            return {...state, ...action.payload.user};
+        }
 
-    default: return state;
-  }
+        default:
+            return state;
+    }
 }
 
 /**

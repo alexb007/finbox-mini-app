@@ -1,8 +1,9 @@
 import React from 'react';
-import Flickity, { FlickityOptions } from 'react-flickity-component';
+// import Flickity, { FlickityOptions } from 'react-flickity-component';
 import { DashboardCard } from '../../../Dashboard/modules';
 import { DebtType } from "../../../../modals/AddDebt/types";
 import IDebtSection from './types';
+import abbreviateNumber from '../../../../utils/abbreviateNumber';
 
 export default class  DebtSection extends React.Component<IDebtSection> {
   render() {
@@ -22,7 +23,9 @@ export default class  DebtSection extends React.Component<IDebtSection> {
         });
       }
 
-      return `${sum} ₽`;
+      const abbrSum = abbreviateNumber(sum);
+
+      return `${abbrSum} ₽`;
     }
 
     return (

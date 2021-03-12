@@ -21,6 +21,7 @@ export interface ISetFriendsAction {
   };
 }
 
+
 /**
  * Friends action type.
  */
