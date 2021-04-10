@@ -23,7 +23,7 @@ export default function DebtCard(props: IDebtCardProps): React.ReactElement {
   return (
     <div className={debtCard()} onClick={() => props.onClick && props.onClick(props.itemKey)}>
       <Avatar size={40}>
-          {userName.trim()[0].toUpperCase()}
+          {(userName.trim()[0] || '').toUpperCase()}
       </Avatar>
       <div className={debtCard('content')}>
         <span className={debtCard('username')}>

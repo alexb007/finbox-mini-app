@@ -5,7 +5,7 @@ import moment from 'moment';
 import * as formik from 'formik';
 import * as ui from '@vkontakte/vkui';
 import * as icons from "@vkontakte/icons";
-import {getCurrentUserId} from '../../utils';
+import {getFirebasePath} from '../../utils';
 import IAddDebtModalProps, {IAddDebtValues, DebtType} from './types';
 import {IState} from '../../store/types/state';
 import {FriendsAction} from "../../store/actions/friends/types";
@@ -30,7 +30,7 @@ class AddDebtModal extends React.Component<IAddDebtModalProps> {
                 </ui.PanelHeaderButton>
             }>Добавить долг</ui.ModalPageHeader>
         )} dynamicContentHeight={this.props.dynamicContentHeight}>
-            <FirebaseDatabaseMutation path={getCurrentUserId() || '/'} type="push">
+            <FirebaseDatabaseMutation path={getFirebasePath() || '/'} type="push">
                 {({runMutation}) => (
                     <formik.Formik initialValues={this.initialValues}
                                    validate={(values: IAddDebtValues): formik.FormikErrors<IAddDebtValues> => {
@@ -41,13 +41,12 @@ class AddDebtModal extends React.Component<IAddDebtModalProps> {
                                            errors.type = 'Выберите тип долга';
                                        } else if (!values.sum) {
                                            errors.sum = 'Введите сумму';
-                                       } else if (!values.friend || values.friend === '') {
+                                       } else if (!values.friend || values.friend.trim() === '') {
                                            errors.friend = `Введите имя вашего ${values.type && values.type.includes(DebtType.borrowed) ? "заёмщика" : "кредитора"}`;
                                        }
                                        return errors;
                                    }}
                                    onSubmit={async (values) => {
-                                       console.log(`${getCurrentUserId()}asd`);
                                        await runMutation({
                                            ...values,
                                            createdAt: moment().format('YYYY-MM-DD'),
@@ -82,7 +81,7 @@ class AddDebtModal extends React.Component<IAddDebtModalProps> {
                                                 max={{
                                                     day: Number(moment().format('D')),
                                                     month: Number(moment().format('M')),
-                                                    year: Number(moment().format('YYYY')) + 1000
+                                                    year: Number(moment().format('YYYY')) + 20
                                                 }}
                                                 defaultValue={{
                                                     day: Number(moment().format('D')),

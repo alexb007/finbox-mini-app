@@ -2,7 +2,7 @@ import React from 'react';
 import {block} from "bem-cn";
 import {ActionSheet, ActionSheetItem} from '@vkontakte/vkui';
 import {DebtSection} from './modules';
-import {getCurrentUserId} from "../../utils";
+import {getFirebasePath} from "../../utils";
 import IDebtControllerProps, {SortType} from './types';
 import {connect} from "react-redux";
 // import {IState} from "../../store/types/state";
@@ -21,10 +21,10 @@ function DebtController(props: IDebtControllerProps): React.ReactElement {
     const [data, setData] = React.useState<{} | null>(null);
 
     function fetchData(): void {
-        const userId = getCurrentUserId();
+        const userHash = getFirebasePath();
 
-        if (userId !== null) {
-            firebase.database().ref(userId).on('value', (snapshot) => {
+        if (userHash !== null) {
+            firebase.database().ref(userHash).on('value', (snapshot) => {
                 const value = snapshot.val();
                 setData(value);
             });
@@ -74,7 +74,7 @@ function DebtController(props: IDebtControllerProps): React.ReactElement {
                             onClose={() => props.onShowPopout && props.onShowPopout(undefined)}
                         >
                             <ActionSheetItem autoclose mode="destructive" onClick={() => {
-                                firebase.database().ref(`${getCurrentUserId()}/${itemKey}`).remove();
+                                firebase.database().ref(`${getFirebasePath()}/${itemKey}`).remove();
                             }}>
                                 Удалить
                             </ActionSheetItem>

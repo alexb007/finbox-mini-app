@@ -90,7 +90,6 @@ export function* fetchServiceChances(action: ILoadChancesAction) {
             type: SET_LOADING,
             payload: {
                 loading: false,
-
             }
         })
     }

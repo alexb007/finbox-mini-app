@@ -13,7 +13,7 @@ import {FETCH_PHONE, FETCH_EMAIL} from "../../store/constants/user";
 import {UserAction} from "../../store/actions/user/types";
 import {UPDATE_FORM_VALUES} from "../../store/constants/selection";
 import {SelectionAction} from "../../store/actions/selection/types";
-import { Icon24LogoVkColor, Icon28LogoVkColor, Icon36LogoVk } from '@vkontakte/icons';
+import {Icon24LogoVkColor, Icon28LogoVkColor, Icon36LogoVk} from '@vkontakte/icons';
 import './styles.scss';
 
 /**
@@ -52,7 +52,7 @@ class SelectionFormPanel extends React.Component<ISelectionFormProps> {
                                if (!values.phone) {
                                    errors.phone = `Введите номер телефона`;
                                } else if (!values.phone.startsWith('+7')) {
-                                    errors.phone = `Введите номер телефона с префиксом +7`;
+                                   errors.phone = `Введите номер телефона с префиксом +7`;
                                } else if (![12, 18].includes(values.phone.length)) {
                                    errors.phone = `Введите корректный номер телефона`;
                                }
@@ -114,20 +114,28 @@ class SelectionFormPanel extends React.Component<ISelectionFormProps> {
                                 <ui.FormItem top="Как вас зовут?"
                                              bottom={meta.touched && meta.error}
                                              status={meta.touched && meta.error ? 'error' : undefined}>
-                                    <ui.Input {...field} placeholder={"Введите как вас зовут"} type="text" onChange={(event) => this.props.saveFormState({...values, fullname: event.target.value})}/>
+                                    <ui.Input {...field} placeholder={"Введите как вас зовут"} type="text"
+                                              onChange={(event) => this.props.saveFormState({
+                                                  ...values,
+                                                  fullname: event.target.value
+                                              })}/>
                                 </ui.FormItem>
                             )}
                         </formik.Field>
                         <formik.Field name="email">
                             {({field, meta}: formik.FieldProps) => (
-                                <ui.FormItem top={"Адрес электронной почты"} 
+                                <ui.FormItem top={"Адрес электронной почты"}
                                              bottom={meta.touched && meta.error}
                                              status={meta.touched && meta.error ? 'error' : undefined}>
                                     <ui.Input {...field} type="email"
-                                        placeholder={"Введите эл. почту"}
-                                        onChange={(event) => this.props.saveFormState({...values, email: event.target.value})}/>
+                                              placeholder={"Введите эл. почту"}
+                                              onChange={(event) => this.props.saveFormState({
+                                                  ...values,
+                                                  email: event.target.value
+                                              })}/>
 
-                                    <ui.IconButton type={'button'} className={'inline-button'} icon={<Icon28LogoVkColor onClick={() => this.props.loadEmail()} />} />
+                                    <ui.IconButton type={'button'} className={'inline-button'}
+                                                   icon={<Icon28LogoVkColor onClick={() => this.props.loadEmail()}/>}/>
                                 </ui.FormItem>
                             )}
                         </formik.Field>
@@ -138,9 +146,13 @@ class SelectionFormPanel extends React.Component<ISelectionFormProps> {
                                     bottom={meta.touched && meta.error}
                                     status={meta.touched && meta.error ? 'error' : undefined}>
                                     <ui.Input className={"phone-input"} {...field} type="tel"
-                                                placeholder={"Номер мобильного телефона"}
-                                              onChange={(event) => this.props.saveFormState({...values, phone: event.target.value})}/>
-                                    <ui.IconButton type={'button'}  className={'inline-button'} icon={<Icon28LogoVkColor  onClick={() => this.props.loadPhone()} />} />
+                                              placeholder={"Номер моб. тел."}
+                                              onChange={(event) => this.props.saveFormState({
+                                                  ...values,
+                                                  phone: event.target.value
+                                              })}/>
+                                    <ui.IconButton type={'button'} className={'inline-button'}
+                                                   icon={<Icon28LogoVkColor onClick={() => this.props.loadPhone()}/>}/>
                                 </ui.FormItem>
                             )}
                         </formik.Field>

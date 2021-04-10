@@ -3,7 +3,7 @@ import { View, ModalRoot } from '@vkontakte/vkui';
 import { ViewProps } from "@vkontakte/vkui/dist/components/View/View";
 import { PanelProps } from "@vkontakte/vkui/dist/components/Panel/Panel";
 import { AppPanel } from "../../panels";
-import { AddDebtModal } from '../../modals';
+import {AddDebtModal, PrivacyPolicyModal} from '../../modals';
 import { AppModal } from './types';
 import IModal from "../../types/modal";
 
@@ -42,6 +42,7 @@ export default function AppView(props: ViewProps & PanelProps): React.ReactEleme
   const modal = (
     <ModalRoot activeModal={activeModal} onClose={onCancelModal}>
       <AddDebtModal id={AppModal.AddDebt} onCancelModal={onCancelModal} dynamicContentHeight />
+      <PrivacyPolicyModal id={AppModal.PrivacyPolicy} onCancelModal={onCancelModal} dynamicContentHeight />
     </ModalRoot>
   );
 
